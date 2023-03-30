@@ -9,7 +9,6 @@ console.log("Background script started")
 function isTorrentFile(path) {
     return path.endsWith(".torrent")
 }
-
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (changeInfo.status === "complete") {
         const urlValid = tab?.url.includes("yggtorrent")
@@ -49,21 +48,22 @@ chrome.tabs.onActivated.addListener(({tabId}) => {
 // Start when a download is created
 chrome.downloads.onCreated.addListener(
     function(downloadItem) {
+        downloadId = downloadItem.id
+        path = downloadItem.filename
         console.log(downloadItem.state)
     }
   )
 
 // Start when a download is changed
 // Need to check if the download is complete and if it is a torrent file
-chrome.downloads.onChanged.addListener(
-    function(downloadItem) {
-        if(downloadItem.state == "complete")
-        {
-            if(isTorrentFile(downloadItem.filename))
-            {
-                console.log("Torrent file downloaded")
-            }
-        }
+chrome.downloads.onChanged.addListener(handleChanged)
+
+function handleChanged(delta) {
+    if (delta.state && delta.state.current === "complete") {
+        //if(isTorrentFile(delta.filename))
+        //{
+        //    console.log("Torrent file")
+        //}
+        console.log(`Download ${delta.id} has completed.`);
     }
-       
-)
+}
