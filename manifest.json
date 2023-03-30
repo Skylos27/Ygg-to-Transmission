@@ -1,0 +1,23 @@
+{
+	"name": "YGG-to-Transmission",
+	"description": "C'est partie",
+	"version": "1.0.0",
+	"manifest_version": 3,
+	"background": {
+		"service_worker": "workers/background.js"
+	},
+	"permissions": [
+		"storage",
+		"webRequest",
+		"tabs",
+		"scripting",
+		"downloads"
+
+	],
+	"icons": {
+		"128": "/images/icon.png"
+	},
+	"host_permissions": [
+		"https://*/torrent/*"
+	]
+}
